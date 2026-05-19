@@ -1,10 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views import generic
+from django.contrib.auth.decorators import login_required
 
 from taxi.models import Car, Driver, Manufacturer
 
-
+@login_required
 def index(request):
     num_drivers = Driver.objects.count()
     num_cars = Car.objects.count()
@@ -31,7 +32,7 @@ class ManufacturerListView(LoginRequiredMixin, generic.ListView):
 
 class CarListView(LoginRequiredMixin, generic.ListView):
     model = Car
-    queryset = Car.objects.select_related("manufacturer").order_by("model")
+    queryset = Car.objects.select_related("manufacturer")
     paginate_by = 5
 
 
@@ -41,7 +42,6 @@ class CarDetailView(LoginRequiredMixin, generic.DetailView):
 
 class DriverListView(LoginRequiredMixin, generic.ListView):
     model = Driver
-    queryset = Driver.objects.order_by("username")
     paginate_by = 5
 
 
