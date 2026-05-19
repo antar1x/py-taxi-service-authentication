@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from taxi.models import Car, Driver, Manufacturer
 
+
 @login_required
 def index(request):
     num_drivers = Driver.objects.count()
